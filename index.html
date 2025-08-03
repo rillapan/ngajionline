@@ -640,7 +640,6 @@
       <div class="sidebar-header">
         <h3 class="sidebar-title">ngaji online</h3>
       </div>
-
       <ul class="sidebar-menu list-unstyled">
         <li>
           <a href="#"> <i class="fas fa-home"></i> Beranda </a>
@@ -687,88 +686,108 @@
       <div class="sidebar-pattern"></div>
     </div>
 
-    <!-- Report Issue Modal -->
-    <div
-      class="modal fade"
-      id="reportIssueModal"
-      tabindex="-1"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Laporkan Masalah</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+<div class="modal fade" id="reportIssueModal" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-light">
+        <h5 class="modal-title fw-bold">Laporkan Masalah</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="issueForm">
+          <!-- Nama Masalah -->
+          <div class="mb-3">
+            <label for="issueName" class="form-label fw-semibold">Nama Masalah <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="issueName" placeholder="Contoh: Menu tidak responsive" required>
           </div>
-          <div class="modal-body">
-            <form id="issueForm">
-              <div class="mb-3">
-                <label for="issueName" class="form-label">Nama Masalah*</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="issueName"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="issueDescription" class="form-label"
-                  >Deskripsi Masalah*</label
-                >
-                <textarea
-                  class="form-control"
-                  id="issueDescription"
-                  rows="3"
-                  required
-                ></textarea>
-              </div>
-              <div class="mb-3">
-                <label for="issueLocation" class="form-label"
-                  >Letak Masalah*</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="issueLocation"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="issueScreenshot" class="form-label"
-                  >Screenshot (Opsional)</label
-                >
-                <input
-                  class="form-control"
-                  type="file"
-                  id="issueScreenshot"
-                  accept="image/*"
-                />
-              </div>
-              <div class="alert alert-info">
-                Laporan akan dikirim via WhatsApp ke tim pengembang
-              </div>
-            </form>
+          
+          <!-- Deskripsi Masalah -->
+          <div class="mb-3">
+            <label for="issueDescription" class="form-label fw-semibold">Deskripsi Masalah <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="issueDescription" rows="3" 
+                      placeholder="Jelaskan masalah yang terjadi secara detail" required></textarea>
           </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Tutup
-            </button>
-            <button type="button" class="btn btn-primary" id="sendReportBtn">
-              Kirim Laporan
-            </button>
+          
+          <!-- Letak Masalah -->
+          <div class="mb-3">
+            <label for="issueLocation" class="form-label fw-semibold">Letak Masalah <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="issueLocation" 
+                   placeholder="Contoh: Sidebar kiri, Halaman Dashboard" required>
           </div>
-        </div>
+          
+          <!-- Upload Screenshot -->
+          <div class="mb-3">
+            <label for="issueScreenshot" class="form-label fw-semibold">Screenshot (Opsional)</label>
+            <input class="form-control" type="file" id="issueScreenshot" accept="image/*">
+            <div class="form-text">Format: JPG, PNG (Maks. 5MB)</div>
+          </div>
+          
+          <div class="alert alert-info mb-0">
+            <i class="bi bi-info-circle me-2"></i>
+            Laporan akan dikirim ke tim teknis
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="bi bi-x-lg me-1"></i> Tutup
+        </button>
+        <button type="submit" class="btn btn-primary" id="sendReportBtn">
+          <i class="bi bi-send me-1"></i> Kirim
+        </button>
       </div>
     </div>
+  </div>
+</div>
+
+<style>
+  /* Pastikan modal muncul di atas sidebar */
+  .modal {
+    z-index: 1060 !important; /* Lebih tinggi dari z-index sidebar */
+  }
+  
+  /* Perbaikan tata letak untuk mencegah tumpang tindih */
+  .modal-dialog {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 95%;
+  }
+  
+  @media (min-width: 576px) {
+    .modal-dialog {
+      max-width: 500px;
+    }
+  }
+  
+  /* Jika sidebar menggunakan z-index tinggi */
+  .sidebar {
+    z-index: 1040 !important; /* Pastikan lebih rendah dari modal */
+  }
+</style>
+
+<script>
+// Script untuk menangani pengiriman form
+document.getElementById('sendReportBtn').addEventListener('click', function() {
+  const form = document.getElementById('issueForm');
+  if (form.checkValidity()) {
+    // Ambil nilai form
+    const problemName = document.getElementById('issueName').value;
+    const problemDesc = document.getElementById('issueDescription').value;
+    const problemLocation = document.getElementById('issueLocation').value;
+    
+    // Kirim via WhatsApp (contoh)
+    const whatsappNumber = "6281234567890";
+    const message = `*Laporan Masalah*%0A%0ANama: ${problemName}%0ADeskripsi: ${problemDesc}%0ALokasi: ${problemLocation}`;
+    
+    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+    
+    // Tutup modal
+    bootstrap.Modal.getInstance(document.getElementById('reportIssueModal')).hide();
+  } else {
+    form.reportValidity();
+  }
+});
+</script>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -1058,7 +1077,7 @@
 
         <div class="footer-links">
           <a href="#">Tentang ngajionline</a>
-          <a href="/profil.html">Kontak</a>
+          <a href="profil.html">Kontak</a>
           <a href="https://saweria.co/khairilaffan">Donasi</a>
         </div>
 
