@@ -1,0 +1,25 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css");
+
+body{
+    background-color: rgb(249, 249, 249);
+}
+.toogle-back{
+    color: black;
+    transition: .5s;
+}
+
+.toogle-back:hover{
+    color: rgb(4, 100, 62);
+    cursor: pointer;
+    transition: all .6s;
+}
+
+.font-arab{
+    font-family: serif;
+    color: rgb(3, 3, 91);
+}
+
+.dalam-pengembangan{
+    margin-top: 200px;
+    text-align: center;
+}

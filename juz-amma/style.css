@@ -1,0 +1,156 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css");
+
+body{
+    background-color: rgb(249, 249, 249);
+}
+.toogle-back{
+    color: black;
+    transition: .5s;
+}
+
+.toogle-back:hover{
+    color: rgb(4, 100, 62);
+    cursor: pointer;
+    transition: all .6s;
+}
+
+.font-arab{
+    font-family: serif;
+    color: rgb(3, 3, 91);
+}
+
+.nama-surat{
+    background-color: white;
+}
+.nama-surat:hover{
+    cursor: pointer;
+    background-color: rgb(219, 219, 219);
+}
+
+
+.btn-tafsir-ayat{
+    cursor: pointer;
+}
+
+* Surah Info Styles */
+.surah-info {
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 15px;
+}
+
+.btn-tafsir-ayat {
+    cursor: pointer;
+    background-color: rgb(4, 100, 62);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+
+.btn-tafsir-ayat:hover {
+    background-color: rgb(3, 80, 50);
+}
+/* Ayat Number Circle */
+.circle-ayat-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: #2e7d32; /* Green color */
+    color: white;
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0 auto 4px auto;
+    border: 2px solid #FFD700; /* Yellow border */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Tafsir Text */
+.tafsir-label {
+    font-size: 0.7rem;
+    color: #555; /* Darker gray color */
+    text-align: center;
+    line-height: 1.2;
+    background-color: #f0f0f0; /* Light gray background */
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 2px;
+}
+
+/* Button styling */
+.ayat-btn-plain {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: block;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s ease;
+}
+
+.ayat-btn-plain:hover .circle-ayat-number {
+    transform: scale(1.05);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+/* Dropdown menu */
+.ayat-dropdown-menu {
+    min-width: 140px;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    border: 1px solid #ddd;
+    padding: 6px 0;
+    margin-top: 8px;
+}
+
+.ayat-dropdown-menu .dropdown-item {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.ayat-dropdown-menu .dropdown-item:hover {
+    background-color: #f8f8f8;
+    color: #2e7d32;
+}
+
+.ayat-dropdown-menu .bi {
+    margin-right: 8px;
+    font-size: 0.9rem;
+    color: #2e7d32;
+}
+
+/* Dropdown arrow */
+.dropdown-toggle::after {
+    display: none; /* Hide default Bootstrap arrow */
+}
+
+/* Center the number and tafsir label */
+.ayat-number-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .font-arab {
+        font-size: 2.8rem !important;
+        padding: 15px 10px;
+    }
+    
+    .nama-surat {
+        padding: 20px;
+        min-height: 180px;
+    }
+}
