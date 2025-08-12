@@ -1,0 +1,87 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css");
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
+
+body {
+    background-color: rgb(249, 249, 249);
+    font-family: 'Poppins', sans-serif;
+}
+
+.toggle-back {
+    color: black;
+    transition: 0.5s;
+}
+
+.toggle-back:hover {
+    color: rgb(4, 100, 62);
+    cursor: pointer;
+    transition: all 0.6s;
+}
+
+/* Arabic Text Styles */
+.font-arab {
+    font-family: 'Amiri', serif;
+    color: rgb(3, 3, 91);
+    font-size: 3.5rem !important;  /* Large font size */
+    line-height: 1.2;
+    text-align: right;
+    padding: 20px 15px;
+    margin: 0;
+}
+
+/* Card Styles */
+.nama-surat {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 25px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    border-left: 5px solid rgb(4, 100, 62);
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.nama-surat:hover {
+    cursor: pointer;
+    background-color: rgb(245, 245, 245);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+/* Surah Info Styles */
+.surah-info {
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 15px;
+}
+
+.btn-tafsir-ayat {
+    cursor: pointer;
+    background-color: rgb(4, 100, 62);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+
+.btn-tafsir-ayat:hover {
+    background-color: rgb(3, 80, 50);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .font-arab {
+        font-size: 2.8rem !important;
+        padding: 15px 10px;
+    }
+    
+    .nama-surat {
+        padding: 20px;
+        min-height: 180px;
+    }
+}

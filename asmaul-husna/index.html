@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asmaul Husna - ngajionline</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Amiri:wght@400;700&family=Lateef&family=Scheherazade+New:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --islamic-green: #0a5e2a;
+        --gold: #b78d41;
+        --cream: #f8f3e6;
+        --light-gold: #e8d9b5;
+        --dark-green: #083d1e;
+        --white: #ffffff;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--cream);
+        color: #333;
+        overflow-x: hidden;
+        padding-top: 70px;
+      }
+      .arabic-font {
+        font-family: "Scheherazade New", "Amiri", "Lateef", serif;
+      }
+      .navbar {
+        background: linear-gradient(
+          135deg,
+          var(--islamic-green) 0%,
+          var(--dark-green) 100%
+        ) !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border-bottom: 3px solid var(--gold);
+      }
+      .navbar h1 {
+        font-weight: 700;
+        font-size: 1.8rem;
+        color: var(--white);
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+      }
+      .navbar h1 span {
+        color: var(--light-gold);
+      }
+      .toogle-back {
+        color: var(--light-gold) !important;
+        transition: all 0.3s ease;
+      }
+      .toogle-back:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(-3px);
+      }
+      .input-asmaul-husna {
+        border: 2px solid var(--light-gold);
+        border-radius: 8px 0 0 8px !important;
+        font-size: 1rem;
+        padding: 12px 15px;
+      }
+      .input-asmaul-husna:focus {
+        box-shadow: 0 0 0 0.25rem rgba(183, 141, 65, 0.25);
+        border-color: var(--gold);
+      }
+      .btn-cari {
+        border: 2px solid var(--light-gold);
+        background-color: var(--gold);
+        color: white;
+        border-radius: 0 8px 8px 0 !important;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+      .btn-cari:hover {
+        background-color: var(--dark-green);
+        border-color: var(--gold);
+      }
+      .isi-asmaul-husna {
+        padding: 20px 0;
+        justify-content: center !important;
+      }
+      .asmaul-card {
+        background: var(--white);
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        border: none;
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+        max-width: 300px;
+      }
+      .asmaul-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      }
+      .asmaul-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(
+          90deg,
+          var(--islamic-green) 0%,
+          var(--gold) 100%
+        );
+      }
+      .card-number {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: var(--gold);
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 0.9rem;
+      }
+      .arabic-name {
+        font-family: "Scheherazade New", serif;
+        font-size: 2.2rem;
+        text-align: center;
+        color: var(--dark-green);
+        padding: 20px 10px 0;
+        line-height: 1.4;
+        min-height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .latin-name {
+        font-weight: 600;
+        text-align: center;
+        color: var(--islamic-green);
+        margin-top: 10px;
+        font-size: 1.1rem;
+      }
+      .meaning {
+        text-align: center;
+        color: #555;
+        padding: 0 15px 20px;
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+      .loading {
+        display: flex;
+        justify-content: center;
+        padding: 30px;
+      }
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid var(--light-gold);
+        border-top: 4px solid var(--islamic-green);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      @media (max-width: 768px) {
+        .navbar h1 {
+          font-size: 1.5rem;
+        }
+        .arabic-name {
+          font-size: 1.8rem;
+          min-height: 80px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- header -->
+    <nav class="navbar fixed-top">
+      <div class="container-fluid">
+        <div class="col-2 ps-2">
+          <a href="../index.html"
+            ><i class="fas fa-arrow-left fs-3 toogle-back p-1 rounded"></i
+          ></a>
+        </div>
+        <div class="col-8 text-center">
+          <h1>
+            <span>ngaji</span>online
+            <small class="d-block fs-6">Asmaul Husna</small>
+          </h1>
+        </div>
+        <div class="col-2"></div>
+      </div>
+    </nav>
+
+    <!-- input search -->
+    <div class="container mt-4 pt-3">
+      <div class="row p-2 d-flex justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <div class="input-group mb-4 shadow-sm">
+            <input
+              type="text"
+              class="form-control input-asmaul-husna"
+              placeholder="Cari nama Allah..."
+              aria-label="Cari nama Allah"
+            />
+            <button class="btn btn-cari" type="button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- container asmaul husna -->
+    <div class="container">
+      <div class="loading">
+        <div class="spinner"></div>
+      </div>
+      <div class="row isi-asmaul-husna justify-content-center">
+        <!-- Cards will be inserted here by JavaScript -->
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.2.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Data Asmaul Husna (99 nama)
+        const asmaulHusna = [
+          {
+            number: 1,
+            arabic: "الرَّحْمَنُ",
+            latin: "Ar-Rahman",
+            meaning: "Yang Maha Pengasih",
+          },
+          {
+            number: 2,
+            arabic: "الرَّحِيمُ",
+            latin: "Ar-Rahim",
+            meaning: "Yang Maha Penyayang",
+          },
+          {
+            number: 3,
+            arabic: "الْمَلِكُ",
+            latin: "Al-Malik",
+            meaning: "Yang Maha Merajai",
+          },
+          {
+            number: 4,
+            arabic: "الْقُدُّوسُ",
+            latin: "Al-Quddus",
+            meaning: "Yang Maha Suci",
+          },
+          {
+            number: 5,
+            arabic: "السَّلاَمُ",
+            latin: "As-Salam",
+            meaning: "Yang Maha Memberi Kesejahteraan",
+          },
+          {
+            number: 6,
+            arabic: "الْمُؤْمِنُ",
+            latin: "Al-Mu'min",
+            meaning: "Yang Maha Memberi Keamanan",
+          },
+          {
+            number: 7,
+            arabic: "الْمُهَيْمِنُ",
+            latin: "Al-Muhaymin",
+            meaning: "Yang Maha Pemelihara",
+          },
+          {
+            number: 8,
+            arabic: "الْعَزِيزُ",
+            latin: "Al-Aziz",
+            meaning: "Yang Maha Perkasa",
+          },
+          {
+            number: 9,
+            arabic: "الْجَبَّارُ",
+            latin: "Al-Jabbar",
+            meaning: "Yang Memiliki Mutlak Kegagahan",
+          },
+          {
+            number: 10,
+            arabic: "الْمُتَكَبِّرُ",
+            latin: "Al-Mutakabbir",
+            meaning: "Yang Maha Megah",
+          },
+          {
+            number: 11,
+            arabic: "الْخَالِقُ",
+            latin: "Al-Khaliq",
+            meaning: "Yang Maha Pencipta",
+          },
+          {
+            number: 12,
+            arabic: "الْبَارِئُ",
+            latin: "Al-Bari'",
+            meaning: "Yang Maha Melepaskan",
+          },
+          {
+            number: 13,
+            arabic: "الْمُصَوِّرُ",
+            latin: "Al-Musawwir",
+            meaning: "Yang Maha Membentuk Rupa",
+          },
+          {
+            number: 14,
+            arabic: "الْغَفَّارُ",
+            latin: "Al-Ghaffar",
+            meaning: "Yang Maha Pengampun",
+          },
+          {
+            number: 15,
+            arabic: "الْقَهَّارُ",
+            latin: "Al-Qahhar",
+            meaning: "Yang Maha Menaklukkan",
+          },
+          {
+            number: 16,
+            arabic: "الْوَهَّابُ",
+            latin: "Al-Wahhab",
+            meaning: "Yang Maha Pemberi Karunia",
+          },
+          {
+            number: 17,
+            arabic: "الرَّزَّاقُ",
+            latin: "Ar-Razzaq",
+            meaning: "Yang Maha Pemberi Rezeki",
+          },
+          {
+            number: 18,
+            arabic: "الْفَتَّاحُ",
+            latin: "Al-Fattah",
+            meaning: "Yang Maha Pembuka Rahmat",
+          },
+          {
+            number: 19,
+            arabic: "اَلْعَلِيْمُ",
+            latin: "Al-'Alim",
+            meaning: "Yang Maha Mengetahui",
+          },
+          {
+            number: 20,
+            arabic: "الْقَابِضُ",
+            latin: "Al-Qabid",
+            meaning: "Yang Maha Menyempitkan",
+          },
+          {
+            number: 21,
+            arabic: "الْبَاسِطُ",
+            latin: "Al-Basit",
+            meaning: "Yang Maha Melapangkan",
+          },
+          {
+            number: 22,
+            arabic: "الْخَافِضُ",
+            latin: "Al-Khafid",
+            meaning: "Yang Maha Merendahkan",
+          },
+          {
+            number: 23,
+            arabic: "الرَّافِعُ",
+            latin: "Ar-Rafi'",
+            meaning: "Yang Maha Meninggikan",
+          },
+          {
+            number: 24,
+            arabic: "الْمُعِزُّ",
+            latin: "Al-Mu'izz",
+            meaning: "Yang Maha Memuliakan",
+          },
+          {
+            number: 25,
+            arabic: "المُذِلُّ",
+            latin: "Al-Mudhill",
+            meaning: "Yang Maha Menghinakan",
+          },
+          {
+            number: 26,
+            arabic: "السَّمِيعُ",
+            latin: "As-Sami'",
+            meaning: "Yang Maha Mendengar",
+          },
+          {
+            number: 27,
+            arabic: "الْبَصِيرُ",
+            latin: "Al-Basir",
+            meaning: "Yang Maha Melihat",
+          },
+          {
+            number: 28,
+            arabic: "الْحَكَمُ",
+            latin: "Al-Hakam",
+            meaning: "Yang Maha Menetapkan",
+          },
+          {
+            number: 29,
+            arabic: "الْعَدْلُ",
+            latin: "Al-Adl",
+            meaning: "Yang Maha Adil",
+          },
+          {
+            number: 30,
+            arabic: "اللَّطِيفُ",
+            latin: "Al-Latif",
+            meaning: "Yang Maha Lembut",
+          },
+          {
+            number: 31,
+            arabic: "الْخَبِيرُ",
+            latin: "Al-Khabir",
+            meaning: "Yang Maha Mengenal",
+          },
+          {
+            number: 32,
+            arabic: "الْحَلِيمُ",
+            latin: "Al-Halim",
+            meaning: "Yang Maha Penyantun",
+          },
+          {
+            number: 33,
+            arabic: "الْعَظِيمُ",
+            latin: "Al-Azim",
+            meaning: "Yang Maha Agung",
+          },
+          {
+            number: 34,
+            arabic: "الْغَفُورُ",
+            latin: "Al-Ghafur",
+            meaning: "Yang Maha Pengampun",
+          },
+          {
+            number: 35,
+            arabic: "الشَّكُورُ",
+            latin: "Asy-Syakur",
+            meaning: "Yang Maha Mensyukuri",
+          },
+          {
+            number: 36,
+            arabic: "الْعَلِيُّ",
+            latin: "Al-Aliyy",
+            meaning: "Yang Maha Tinggi",
+          },
+          {
+            number: 37,
+            arabic: "الْكَبِيرُ",
+            latin: "Al-Kabir",
+            meaning: "Yang Maha Besar",
+          },
+          {
+            number: 38,
+            arabic: "الْحَفِيظُ",
+            latin: "Al-Hafiz",
+            meaning: "Yang Maha Memelihara",
+          },
+          {
+            number: 39,
+            arabic: "المُقيِت",
+            latin: "Al-Muqit",
+            meaning: "Yang Maha Pemberi Kecukupan",
+          },
+          {
+            number: 40,
+            arabic: "الْحسِيبُ",
+            latin: "Al-Hasib",
+            meaning: "Yang Maha Membuat Perhitungan",
+          },
+          {
+            number: 41,
+            arabic: "الْجَلِيلُ",
+            latin: "Al-Jalil",
+            meaning: "Yang Maha Mulia",
+          },
+          {
+            number: 42,
+            arabic: "الْكَرِيمُ",
+            latin: "Al-Karim",
+            meaning: "Yang Maha Pemurah",
+          },
+          {
+            number: 43,
+            arabic: "الرَّقِيبُ",
+            latin: "Ar-Raqib",
+            meaning: "Yang Maha Mengawasi",
+          },
+          {
+            number: 44,
+            arabic: "الْمُجِيبُ",
+            latin: "Al-Mujib",
+            meaning: "Yang Maha Mengabulkan",
+          },
+          {
+            number: 45,
+            arabic: "الْوَاسِعُ",
+            latin: "Al-Wasi'",
+            meaning: "Yang Maha Luas",
+          },
+          {
+            number: 46,
+            arabic: "الْحَكِيمُ",
+            latin: "Al-Hakim",
+            meaning: "Yang Maha Bijaksana",
+          },
+          {
+            number: 47,
+            arabic: "الْوَدُودُ",
+            latin: "Al-Wadud",
+            meaning: "Yang Maha Mengasihi",
+          },
+          {
+            number: 48,
+            arabic: "الْمَجِيدُ",
+            latin: "Al-Majid",
+            meaning: "Yang Maha Mulia",
+          },
+          {
+            number: 49,
+            arabic: "الْبَاعِثُ",
+            latin: "Al-Ba'its",
+            meaning: "Yang Maha Membangkitkan",
+          },
+          {
+            number: 50,
+            arabic: "الشَّهِيدُ",
+            latin: "Asy-Syahid",
+            meaning: "Yang Maha Menyaksikan",
+          },
+          {
+            number: 51,
+            arabic: "الْحَقُّ",
+            latin: "Al-Haqq",
+            meaning: "Yang Maha Benar",
+          },
+          {
+            number: 52,
+            arabic: "الْوَكِيلُ",
+            latin: "Al-Wakil",
+            meaning: "Yang Maha Memelihara",
+          },
+          {
+            number: 53,
+            arabic: "الْقَوِيُّ",
+            latin: "Al-Qawiyy",
+            meaning: "Yang Maha Kuat",
+          },
+          {
+            number: 54,
+            arabic: "الْمَتِينُ",
+            latin: "Al-Matin",
+            meaning: "Yang Maha Kokoh",
+          },
+          {
+            number: 55,
+            arabic: "الْوَلِيُّ",
+            latin: "Al-Waliyy",
+            meaning: "Yang Maha Melindungi",
+          },
+          {
+            number: 56,
+            arabic: "الْحَمِيدُ",
+            latin: "Al-Hamid",
+            meaning: "Yang Maha Terpuji",
+          },
+          {
+            number: 57,
+            arabic: "الْمُحْصِي",
+            latin: "Al-Muhshi",
+            meaning: "Yang Maha Menghitung",
+          },
+          {
+            number: 58,
+            arabic: "الْمُبْدِئُ",
+            latin: "Al-Mubdi'",
+            meaning: "Yang Maha Memulai",
+          },
+          {
+            number: 59,
+            arabic: "الْمُعِيدُ",
+            latin: "Al-Mu'id",
+            meaning: "Yang Maha Mengembalikan Kehidupan",
+          },
+          {
+            number: 60,
+            arabic: "الْمُحْيِي",
+            latin: "Al-Muhyi",
+            meaning: "Yang Maha Menghidupkan",
+          },
+          {
+            number: 61,
+            arabic: "اَلْمُمِيتُ",
+            latin: "Al-Mumit",
+            meaning: "Yang Maha Mematikan",
+          },
+          {
+            number: 62,
+            arabic: "الْحَيُّ",
+            latin: "Al-Hayy",
+            meaning: "Yang Maha Hidup",
+          },
+          {
+            number: 63,
+            arabic: "الْقَيُّومُ",
+            latin: "Al-Qayyum",
+            meaning: "Yang Maha Berdiri Sendiri",
+          },
+          {
+            number: 64,
+            arabic: "الْوَاجِدُ",
+            latin: "Al-Wajid",
+            meaning: "Yang Maha Penemu",
+          },
+          {
+            number: 65,
+            arabic: "الْمَاجِدُ",
+            latin: "Al-Majid",
+            meaning: "Yang Maha Mulia",
+          },
+          {
+            number: 66,
+            arabic: "الْواحِدُ",
+            latin: "Al-Wahid",
+            meaning: "Yang Maha Esa",
+          },
+          {
+            number: 67,
+            arabic: "اَلاَحَدُ",
+            latin: "Al-Ahad",
+            meaning: "Yang Maha Tunggal",
+          },
+          {
+            number: 68,
+            arabic: "الصَّمَدُ",
+            latin: "As-Samad",
+            meaning: "Yang Maha Dibutuhkan",
+          },
+          {
+            number: 69,
+            arabic: "الْقَادِرُ",
+            latin: "Al-Qadir",
+            meaning: "Yang Maha Kuasa",
+          },
+          {
+            number: 70,
+            arabic: "الْمُقْتَدِرُ",
+            latin: "Al-Muqtadir",
+            meaning: "Yang Maha Menentukan",
+          },
+          {
+            number: 71,
+            arabic: "الْمُقَدِّمُ",
+            latin: "Al-Muqaddim",
+            meaning: "Yang Maha Mendahulukan",
+          },
+          {
+            number: 72,
+            arabic: "الْمُؤَخِّرُ",
+            latin: "Al-Mu'akhkhir",
+            meaning: "Yang Maha Mengakhirkan",
+          },
+          {
+            number: 73,
+            arabic: "الأوَّلُ",
+            latin: "Al-Awwal",
+            meaning: "Yang Maha Awal",
+          },
+          {
+            number: 74,
+            arabic: "الآخِرُ",
+            latin: "Al-Akhir",
+            meaning: "Yang Maha Akhir",
+          },
+          {
+            number: 75,
+            arabic: "الظَّاهِرُ",
+            latin: "Az-Zahir",
+            meaning: "Yang Maha Nyata",
+          },
+          {
+            number: 76,
+            arabic: "الْبَاطِنُ",
+            latin: "Al-Batin",
+            meaning: "Yang Maha Ghaib",
+          },
+          {
+            number: 77,
+            arabic: "الْوَالِي",
+            latin: "Al-Wali",
+            meaning: "Yang Maha Memerintah",
+          },
+          {
+            number: 78,
+            arabic: "الْمُتَعَالِي",
+            latin: "Al-Muta'ali",
+            meaning: "Yang Maha Tinggi",
+          },
+          {
+            number: 79,
+            arabic: "الْبَرُّ",
+            latin: "Al-Barr",
+            meaning: "Yang Maha Dermawan",
+          },
+          {
+            number: 80,
+            arabic: "التَّوَابُ",
+            latin: "At-Tawwab",
+            meaning: "Yang Maha Penerima Tobat",
+          },
+          {
+            number: 81,
+            arabic: "الْمُنْتَقِمُ",
+            latin: "Al-Muntaqim",
+            meaning: "Yang Maha Pemberi Balasan",
+          },
+          {
+            number: 82,
+            arabic: "العَفُوُ",
+            latin: "Al-Afuww",
+            meaning: "Yang Maha Pemaaf",
+          },
+          {
+            number: 83,
+            arabic: "الرَّؤُوفُ",
+            latin: "Ar-Ra'uf",
+            meaning: "Yang Maha Pengasuh",
+          },
+          {
+            number: 84,
+            arabic: "مَالِكُ الْمُلْكِ",
+            latin: "Malik-ul-Mulk",
+            meaning: "Yang Maha Penguasa Kerajaan",
+          },
+          {
+            number: 85,
+            arabic: "ذُوالْجَلاَلِ وَالإكْرَامِ",
+            latin: "Dzul-Jalali wal-Ikram",
+            meaning: "Yang Maha Pemilik Kebesaran dan Kemuliaan",
+          },
+          {
+            number: 86,
+            arabic: "الْمُقْسِطُ",
+            latin: "Al-Muqsit",
+            meaning: "Yang Maha Adil",
+          },
+          {
+            number: 87,
+            arabic: "الْجَامِعُ",
+            latin: "Al-Jami'",
+            meaning: "Yang Maha Mengumpulkan",
+          },
+          {
+            number: 88,
+            arabic: "الْغَنِيُّ",
+            latin: "Al-Ghaniyy",
+            meaning: "Yang Maha Kaya",
+          },
+          {
+            number: 89,
+            arabic: "الْمُغْنِي",
+            latin: "Al-Mughni",
+            meaning: "Yang Maha Pemberi Kekayaan",
+          },
+          {
+            number: 90,
+            arabic: "اَلْمَانِعُ",
+            latin: "Al-Mani'",
+            meaning: "Yang Maha Mencegah",
+          },
+          {
+            number: 91,
+            arabic: "الضَّارَّ",
+            latin: "Ad-Dharr",
+            meaning: "Yang Maha Penimpa Kemudharatan",
+          },
+          {
+            number: 92,
+            arabic: "النَّافِعُ",
+            latin: "An-Nafi'",
+            meaning: "Yang Maha Memberi Manfaat",
+          },
+          {
+            number: 93,
+            arabic: "النُّورُ",
+            latin: "An-Nur",
+            meaning: "Yang Maha Bercahaya",
+          },
+          {
+            number: 94,
+            arabic: "الْهَادِي",
+            latin: "Al-Hadi",
+            meaning: "Yang Maha Pemberi Petunjuk",
+          },
+          {
+            number: 95,
+            arabic: "الْبَدِيعُ",
+            latin: "Al-Badi'",
+            meaning: "Yang Maha Pencipta Tanpa Contoh",
+          },
+          {
+            number: 96,
+            arabic: "اَلْبَاقِي",
+            latin: "Al-Baqi",
+            meaning: "Yang Maha Kekal",
+          },
+          {
+            number: 97,
+            arabic: "الْوَارِثُ",
+            latin: "Al-Warith",
+            meaning: "Yang Maha Pewaris",
+          },
+          {
+            number: 98,
+            arabic: "الرَّشِيدُ",
+            latin: "Ar-Rasyid",
+            meaning: "Yang Maha Pandai",
+          },
+          {
+            number: 99,
+            arabic: "الصَّبُورُ",
+            latin: "As-Sabur",
+            meaning: "Yang Maha Sabar",
+          },
+        ];
+        // Function to render cards
+        function renderCards(data) {
+          $(".loading").hide();
+          $(".isi-asmaul-husna").empty();
+          data.forEach((item) => {
+            const card = `
+                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
+                            <div class="card asmaul-card h-100">
+                                <div class="card-number">${item.number}</div>
+                                <div class="arabic-name arabic-font" dir="rtl">${item.arabic}</div>
+                                <div class="latin-name">${item.latin}</div>
+                                <div class="meaning">${item.meaning}</div>
+                            </div>
+                        </div>
+                    `;
+            $(".isi-asmaul-husna").append(card);
+          });
+        }
+        // Initial render
+        setTimeout(() => {
+          renderCards(asmaulHusna);
+        }, 1000);
+        // Search functionality
+        $(".btn-cari").click(searchAsmaul);
+        $(".input-asmaul-husna").on("keyup", function (e) {
+          if (e.key === "Enter") searchAsmaul();
+        });
+        function searchAsmaul() {
+          const searchTerm = $(".input-asmaul-husna").val().toLowerCase();
+          if (searchTerm === "") {
+            renderCards(asmaulHusna);
+            return;
+          }
+          const filtered = asmaulHusna.filter(
+            (item) =>
+              item.latin.toLowerCase().includes(searchTerm) ||
+              item.meaning.toLowerCase().includes(searchTerm)
+          );
+          renderCards(filtered);
+        }
+      });
+    </script>
+  </body>
+</html>

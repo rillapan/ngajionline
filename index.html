@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ngajionline - Platform Digital Al-Qur'an</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Amiri:wght@400;700&family=Lateef&family=Scheherazade+New:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --islamic-green: #0a5e2a;
+        --gold: #b78d41;
+        --cream: #f8f3e6;
+        --light-gold: #e8d9b5;
+        --dark-green: #083d1e;
+        --white: #ffffff;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: var(--cream);
+        color: #333;
+        overflow-x: hidden;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" opacity="0.05"><path d="M20,50 Q35,20 50,50 Q65,80 80,50" stroke="%23B78D41" fill="none" stroke-width="2"/></svg>');
+        background-size: 150px;
+      }
+
+      /* Enhanced Sidebar Styles */
+      .sidebar {
+        height: 100vh;
+        width: 280px;
+        position: fixed;
+        top: 0;
+        left: -300px;
+        background: linear-gradient(
+          to bottom,
+          var(--islamic-green),
+          var(--dark-green)
+        );
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        z-index: 1000;
+        padding-top: 20px;
+        overflow-y: auto;
+        color: white;
+      }
+
+      .sidebar-open {
+        left: 0;
+      }
+
+      .sidebar-header {
+        padding: 20px;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      .sidebar-title {
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
+        font-size: 1.5rem;
+        color: var(--light-gold);
+        margin-bottom: 0;
+      }
+
+      .menu-toggle {
+        position: fixed;
+        left: 15px;
+        top: 15px;
+        z-index: 1100;
+        background: var(--islamic-green);
+        color: white;
+        border: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        font-size: 1.3rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .menu-toggle:hover {
+        background: var(--dark-green);
+        transform: scale(1.1);
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        display: none;
+        backdrop-filter: blur(3px);
+      }
+
+      .sidebar-menu {
+        padding: 0 20px;
+      }
+
+      .sidebar-menu li {
+        margin-bottom: 5px;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .sidebar-menu li a {
+        display: block;
+        padding: 12px 15px;
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .sidebar-menu li a:hover {
+        color: white;
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+      }
+
+      .sidebar-menu li a::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: var(--gold);
+        border-radius: 5px 0 0 5px;
+        opacity: 0;
+        transition: all 0.3s ease;
+      }
+
+      .sidebar-menu li a:hover::before {
+        opacity: 1;
+      }
+
+      .sidebar-menu li i {
+        width: 25px;
+        text-align: center;
+        margin-right: 10px;
+        color: var(--light-gold);
+      }
+
+      .sidebar-footer {
+        padding: 20px;
+        text-align: center;
+        margin-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .sidebar-pattern {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,50 Q35,20 50,50 Q65,80 80,50" stroke="%23B78D41" fill="none" stroke-width="2" opacity="0.2"/></svg>');
+        background-repeat: no-repeat;
+        background-position: bottom right;
+        opacity: 0.1;
+        z-index: 0;
+      }
+
+      .arabic-text {
+        font-family: "Scheherazade New", "Amiri", serif;
+        font-size: 2rem;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .arabic-font {
+        font-family: "Scheherazade New", "Amiri", "Lateef", serif;
+      }
+
+      /* Header Styles */
+      .main-header {
+        background: linear-gradient(
+          135deg,
+          var(--islamic-green) 0%,
+          var(--dark-green) 100%
+        );
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        padding: 1rem 0;
+        position: relative;
+        z-index: 1000;
+        border-bottom: 5px solid var(--gold);
+      }
+
+      .basmallah {
+        font-family: "Scheherazade New", serif;
+        font-size: 2.5rem;
+        color: var(--light-gold);
+        text-align: center;
+        margin-top: 0.5rem;
+        line-height: 1;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      .logo {
+        font-family: "Poppins", sans-serif;
+        font-weight: 700;
+        font-size: 2.2rem;
+        color: var(--white);
+        text-align: center;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        position: relative;
+        display: inline-block;
+      }
+
+      .logo span {
+        color: var(--light-gold);
+      }
+
+      .logo-container {
+        text-align: center;
+        position: relative;
+      }
+
+      /* Menu Card Styles */
+      .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        padding: 2rem;
+      }
+
+      .menu-card {
+        background: var(--white);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        text-decoration: none !important;
+        border: 1px solid rgba(10, 94, 42, 0.15);
+        position: relative;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .menu-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      }
+
+      .menu-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(
+          90deg,
+          var(--islamic-green) 0%,
+          var(--gold) 100%
+        );
+      }
+
+      .card-icon {
+        width: 80px;
+        height: 80px;
+        margin: 2rem auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(183, 141, 65, 0.1);
+        border-radius: 50%;
+        color: var(--islamic-green);
+        font-size: 2.5rem;
+      }
+
+      .card-title {
+        color: var(--islamic-green);
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        font-size: 1.4rem;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .card-title::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 2px;
+        background: var(--gold);
+      }
+
+      .card-desc {
+        color: #555;
+        text-align: center;
+        padding: 0 1.5rem 2rem;
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      /* Ayat Hari Ini Section */
+      .daily-verse {
+        background: var(--white);
+        border-radius: 8px;
+        padding: 2rem;
+        margin: 2rem auto;
+        max-width: 800px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border-top: 5px solid var(--islamic-green);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .daily-verse::before {
+        content: "﴾";
+        font-family: "Scheherazade New", serif;
+        font-size: 8rem;
+        color: rgba(183, 141, 65, 0.1);
+        position: absolute;
+        top: -20px;
+        right: 10px;
+        line-height: 1;
+        z-index: 0;
+      }
+
+      .verse-title {
+        color: var(--islamic-green);
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .verse-arabic {
+        font-family: "Scheherazade New", serif;
+        font-size: 2.2rem;
+        line-height: 1.8;
+        text-align: right;
+        color: var(--dark-green);
+        margin-bottom: 1.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .verse-translation {
+        font-style: italic;
+        color: #555;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 0.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .verse-reference {
+        color: var(--gold);
+        font-weight: 500;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Footer Styles */
+      .main-footer {
+        background: linear-gradient(
+          135deg,
+          var(--dark-green) 0%,
+          var(--islamic-green) 100%
+        );
+        color: var(--white);
+        padding: 3rem 0 1.5rem;
+        position: relative;
+        overflow: hidden;
+        border-top: 5px solid var(--gold);
+      }
+
+      .verse-container {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border-right: 5px solid var(--gold);
+        position: relative;
+      }
+
+      .verse-container::before {
+        content: "﴿";
+        font-family: "Scheherazade New", serif;
+        font-size: 8rem;
+        color: rgba(255, 255, 255, 0.05);
+        position: absolute;
+        bottom: -30px;
+        left: 10px;
+        line-height: 1;
+      }
+
+      .footer-verse-arabic {
+        font-family: "Scheherazade New", serif;
+        font-size: 2rem;
+        line-height: 1.8;
+        text-align: right;
+        color: var(--white);
+        margin-bottom: 1.5rem;
+      }
+
+      .footer-verse-translation {
+        font-style: italic;
+        opacity: 0.9;
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+
+      .footer-verse-reference {
+        text-align: right;
+        color: var(--light-gold);
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
+
+      .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin: 0 15px;
+        position: relative;
+        padding: 5px 0;
+      }
+
+      .footer-links a:hover {
+        color: var(--light-gold);
+      }
+
+      .footer-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--light-gold);
+        transition: width 0.3s ease;
+      }
+
+      .footer-links a:hover::after {
+        width: 100%;
+      }
+
+      .copyright {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+        text-align: center;
+      }
+
+      /* Dekorasi Islami */
+      .islamic-pattern {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        opacity: 0.1;
+        z-index: 0;
+      }
+
+      .pattern-1 {
+        top: 20px;
+        left: 20px;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,0 C60,20 80,20 100,50 C80,60 80,80 50,100 C40,80 20,80 0,50 C20,40 20,20 50,0 Z" fill="%23B78D41"/></svg>');
+        background-size: contain;
+      }
+
+      .pattern-2 {
+        bottom: 20px;
+        right: 20px;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,50 Q35,20 50,50 Q65,80 80,50" stroke="%23B78D41" fill="none" stroke-width="4"/></svg>');
+        background-size: contain;
+        transform: rotate(180deg);
+      }
+
+      .footer-verse-container {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border-right: 5px solid var(--gold);
+        position: relative;
+      }
+
+      .footer-verse-arabic {
+        font-family: "Scheherazade New", "Amiri", serif;
+        font-size: 1.8rem;
+        line-height: 2.5;
+        text-align: right;
+        color: var(--white);
+        margin-bottom: 1.5rem;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        hyphens: manual;
+        padding: 0;
+        direction: rtl;
+        text-align: justify;
+        text-justify: inter-word;
+      }
+
+      .footer-verse-translation {
+        font-style: italic;
+        opacity: 0.9;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        text-align: left;
+        margin-top: 1rem;
+      }
+      /* Thank You Popup Styles */
+      #thankYouModal .modal-content {
+        border-radius: 15px;
+        overflow: hidden;
+      }
+
+      #thankYouModal .modal-body {
+        padding: 0;
+      }
+
+      #thankYouModal h4 {
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
+        color: var(--islamic-green);
+      }
+
+      #thankYouModal p {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+
+      #thankYouModal .text-muted {
+        font-style: italic;
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 768px) {
+        .main-header {
+          padding: 0.5rem 0;
+          position: sticky;
+          top: 0;
+          z-index: 1000;
+        }
+
+        .logo {
+          font-size: 1.5rem;
+        }
+
+        .basmallah {
+          font-size: 1.8rem;
+          margin-top: 0.3rem;
+        }
+
+        .footer-verse-arabic {
+          font-size: 1.6rem;
+          line-height: 2.2;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .footer-verse-arabic {
+          font-size: 1.4rem;
+          line-height: 2;
+        }
+
+        .footer-verse-translation {
+          font-size: 1rem;
+        }
+
+        /* Tambahkan navbar mobile */
+        .mobile-navbar {
+          display: flex;
+          justify-content: space-around;
+          background: var(--dark-green);
+          padding: 0.5rem 0;
+          position: fixed;
+          bottom: 0;
+          width: 100%;
+          z-index: 1000;
+        }
+
+        .mobile-nav-item {
+          color: white;
+          text-align: center;
+          font-size: 0.8rem;
+        }
+
+        .mobile-nav-item i {
+          display: block;
+          font-size: 1.2rem;
+          margin-bottom: 0.2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Tombol Toggle Sidebar -->
+    <button class="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Enhanced Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h3 class="sidebar-title">ngaji online</h3>
+      </div>
+      <ul class="sidebar-menu list-unstyled">
+        <li>
+          <a href="#"> <i class="fas fa-home"></i> Beranda </a>
+        </li>
+        <li>
+          <a href="surat/index.html">
+            <i class="fas fa-book-quran"></i> Daftar Surat
+          </a>
+        </li>
+        <li>
+          <a href="juz-amma/index.html">
+            <i class="fas fa-star"></i> Juz Amma
+          </a>
+        </li>
+        <li>
+          <a href="doa-doa/index.html">
+            <i class="fas fa-hands-praying"></i> Doa Harian
+          </a>
+        </li>
+        <li>
+          <a href="asmaul-husna/index.html">
+            <i class="fas fa-pray"></i> Asmaul Husna
+          </a>
+        </li>
+        <li>
+          <a href="profil.html">
+            <i class="fas fa-user-tie"></i> Profile Pengembang
+          </a>
+        </li>
+        <li>
+          <a href="#" id="reportIssueBtn">
+            <i class="fas fa-bug"></i> Laporkan Masalah
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <p>ngajionline v1.0.0</p>
+        <p class="arabic-font" style="font-size: 1.2rem; margin-top: 5px">
+          وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ
+        </p>
+      </div>
+
+      <div class="sidebar-pattern"></div>
+    </div>
+
+<div class="modal fade" id="reportIssueModal" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-light">
+        <h5 class="modal-title fw-bold">Laporkan Masalah</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="issueForm">
+          <!-- Nama Masalah -->
+          <div class="mb-3">
+            <label for="issueName" class="form-label fw-semibold">Nama Masalah <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="issueName" placeholder="Contoh: Menu tidak responsive" required>
+          </div>
+          
+          <!-- Deskripsi Masalah -->
+          <div class="mb-3">
+            <label for="issueDescription" class="form-label fw-semibold">Deskripsi Masalah <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="issueDescription" rows="3" 
+                      placeholder="Jelaskan masalah yang terjadi secara detail" required></textarea>
+          </div>
+          
+          <!-- Letak Masalah -->
+          <div class="mb-3">
+            <label for="issueLocation" class="form-label fw-semibold">Letak Masalah <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="issueLocation" 
+                   placeholder="Contoh: Sidebar kiri, Halaman Dashboard" required>
+          </div>
+          
+          <!-- Upload Screenshot -->
+          <div class="mb-3">
+            <label for="issueScreenshot" class="form-label fw-semibold">Screenshot (Opsional)</label>
+            <input class="form-control" type="file" id="issueScreenshot" accept="image/*">
+            <div class="form-text">Format: JPG, PNG (Maks. 5MB)</div>
+          </div>
+          
+          <div class="alert alert-info mb-0">
+            <i class="bi bi-info-circle me-2"></i>
+            Laporan akan dikirim ke tim teknis
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="bi bi-x-lg me-1"></i> Tutup
+        </button>
+        <button type="submit" class="btn btn-primary" id="sendReportBtn">
+          <i class="bi bi-send me-1"></i> Kirim
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Pastikan modal muncul di atas sidebar */
+  .modal {
+    z-index: 1060 !important; /* Lebih tinggi dari z-index sidebar */
+  }
+  
+  /* Perbaikan tata letak untuk mencegah tumpang tindih */
+  .modal-dialog {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 95%;
+  }
+  
+  @media (min-width: 576px) {
+    .modal-dialog {
+      max-width: 500px;
+    }
+  }
+  
+  /* Jika sidebar menggunakan z-index tinggi */
+  .sidebar {
+    z-index: 1040 !important; /* Pastikan lebih rendah dari modal */
+  }
+</style>
+
+<script>
+// Script untuk menangani pengiriman form
+document.getElementById('sendReportBtn').addEventListener('click', function() {
+  const form = document.getElementById('issueForm');
+  if (form.checkValidity()) {
+    // Ambil nilai form
+    const problemName = document.getElementById('issueName').value;
+    const problemDesc = document.getElementById('issueDescription').value;
+    const problemLocation = document.getElementById('issueLocation').value;
+    
+    // Kirim via WhatsApp (contoh)
+    const whatsappNumber = "+6289630961095";
+    const message = `*Laporan Masalah*%0A%0ANama masalah: ${problemName}%0ADeskripsi: ${problemDesc}%0ALetak masalah: ${problemLocation}`;
+    
+    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+    
+    // Tutup modal
+    bootstrap.Modal.getInstance(document.getElementById('reportIssueModal')).hide();
+  } else {
+    form.reportValidity();
+  }
+});
+</script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Show modal when report issue is clicked
+        document
+          .getElementById("reportIssueBtn")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            var modal = new bootstrap.Modal(
+              document.getElementById("reportIssueModal")
+            );
+            modal.show();
+          });
+
+        // Handle form submission
+        document
+          .getElementById("sendReportBtn")
+          .addEventListener("click", function () {
+            const name = document.getElementById("issueName").value;
+            const description =
+              document.getElementById("issueDescription").value;
+            const location = document.getElementById("issueLocation").value;
+            const fileInput = document.getElementById("issueScreenshot");
+
+            if (!name || !description || !location) {
+              alert("Harap isi semua field yang wajib diisi!");
+              return;
+            }
+
+            // Format WhatsApp message
+            let message =
+              `*Laporan Masalah Ngaji Online*%0A%0A` +
+              `*Nama Masalah:* ${name}%0A` +
+              `*Deskripsi:* ${description}%0A` +
+              `*Letak Masalah:* ${location}%0A` +
+              `*Versi Aplikasi:* 1.0.0%0A` +
+              `*Tanggal:* ${new Date().toLocaleString()}`;
+
+            if (fileInput.files.length > 0) {
+              message +=
+                "%0A%0A*Catatan:* Terdapat screenshot yang dilampirkan";
+            }
+
+            // Open WhatsApp with the message
+            window.open(
+              `https://wa.me/6289630961095?text=${message}`,
+              "_blank"
+            );
+
+            // Close the modal
+            var modal = bootstrap.Modal.getInstance(
+              document.getElementById("reportIssueModal")
+            );
+            modal.hide();
+
+            // Reset form
+            document.getElementById("issueForm").reset();
+
+            // Show thank you popup
+            var thankYouModal = new bootstrap.Modal(
+              document.getElementById("thankYouModal")
+            );
+            thankYouModal.show();
+          });
+      });
+    </script>
+
+    <!-- Header with Basmallah -->
+    <header class="main-header">
+      <div class="container">
+        <div class="logo-container">
+          <div class="logo"><span>ngaji</span>online</div>
+        </div>
+        <div class="basmallah arabic-font">
+          بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+        </div>
+      </div>
+    </header>
+
+ <main class="container my-5">
+    <!-- Feature Cards Grid -->
+    <div class="row g-4">
+      <!-- Baris Pertama - 2 Kolom -->
+      <div class="col-md-6">
+        <a href="surat" class="menu-card">
+          <div class="card-icon">
+            <img
+              src="img/icon-surat.png"
+              alt="Daftar Surat"
+              style="
+                width: 60px;
+                height: 60px;
+                object-fit: cover;
+                border-radius: 50%;
+              "
+            />
+          </div>
+          <h3 class="card-title">Daftar Surat</h3>
+          <p class="card-desc">
+            Baca dan pelajari semua 114 surat dalam Al-Qur'an dengan
+            terjemahan dan tafsir lengkap.
+          </p>
+        </a>
+      </div>
+      <div class="col-md-6">
+        <a href="juz-amma" class="menu-card">
+          <div class="card-icon">
+            <img
+              src="img/juz-amma.png"
+              alt="Juz Amma"
+              style="
+                width: 60px;
+                height: 60px;
+                object-fit: cover;
+                border-radius: 50%;
+              "
+            />
+          </div>
+          <h3 class="card-title">Juz Amma</h3>
+          <p class="card-desc">
+            Kumpulan surat pendek dari Juz 30 yang sering dibaca dalam shalat
+            dan hafalan.
+          </p>
+        </a>
+      </div>
+      
+      <!-- Baris Kedua - 2 Kolom -->
+      <div class="col-md-6">
+        <a href="doa-doa" class="menu-card">
+          <div class="card-icon">
+            <img
+              src="img/icon_doa.png"
+              alt="Doa Harian"
+              style="
+                width: 60px;
+                height: 60px;
+                object-fit: cover;
+                border-radius: 50%;
+              "
+            />
+          </div>
+          <h3 class="card-title">Do'a Harian</h3>
+          <p class="card-desc">
+            Kumpulan doa-doa dari Rasulullah ﷺ untuk aktivitas sehari-hari.
+          </p>
+        </a>
+      </div>
+      <div class="col-md-6">
+        <a href="asmaul-husna" class="menu-card">
+          <div class="card-icon">
+            <img
+              src="img/icon-asmaul-husna.png"
+              alt="Asmaul Husna"
+              style="
+                width: 60px;
+                height: 60px;
+                object-fit: cover;
+                border-radius: 50%;
+              "
+            />
+          </div>
+          <h3 class="card-title">Asmaul Husna</h3>
+          <p class="card-desc">
+            99 Nama Allah yang indah beserta makna dan keutamaannya.
+          </p>
+        </a>
+      </div>
+      
+      <!-- Baris Ketiga - 1 Kolom di Tengah -->
+      <div class="col-12 d-flex justify-content-center">
+        <div class="col-md-6" style="max-width: 500px;">
+          <a href="berita-islam" class="menu-card">
+            <div class="card-icon">
+              <img
+                src="img/newspaper.png"
+                alt="Doa Tahlil"
+                style="
+                  width: 60px;
+                  height: 60px;
+                  object-fit: cover;
+                  border-radius: 50%;
+                "
+              />
+            </div>
+            <h3 class="card-title">berita islami</h3>
+            <p class="card-desc">Kumpulan informasi islami terkini</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+    <!-- Footer with Verse -->
+    <footer class="main-footer">
+      <div class="container">
+        <div class="verse-container">
+          <p class="footer-verse-arabic" dir="rtl">
+            إِنَّ هَـٰذَا ٱلْقُرْءَانَ يَهْدِى لِلَّتِى هِىَ أَقْوَمُ
+            وَيُبَشِّرُ ٱلْمُؤْمِنِينَ ٱلَّذِينَ يَعْمَلُونَ ٱلصَّـٰلِحَـٰتِ
+            أَنَّ لَهُمْ أَجْرًۭا كَبِيرًۭا
+          </p>
+          <p class="footer-verse-translation">
+            "Sesungguhnya Al-Qur'an ini memberikan petunjuk kepada (jalan) yang
+            lebih lurus dan memberi kabar gembira kepada orang-orang mukmin yang
+            mengerjakan amal shalih bahwa bagi mereka ada pahala yang besar."
+          </p>
+          <p class="footer-verse-reference">QS. Al-Isra' (17) : 9</p>
+        </div>
+
+        <style>
+          .verse-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+            text-align: center;
+            font-family: "Traditional Arabic", "Arial", sans-serif;
+            direction: rtl;
+          }
+
+          .footer-verse-arabic {
+            font-size: clamp(18px, 3vw, 24px);
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #2a4365;
+          }
+
+          .footer-verse-translation {
+            font-size: clamp(14px, 2vw, 18px);
+            line-height: 1.6;
+            margin-bottom: 10px;
+            color: #4a5568;
+            direction: ltr;
+            text-align: center;
+          }
+
+          .footer-verse-reference {
+            font-size: clamp(12px, 1.8vw, 16px);
+            color: #718096;
+            font-style: italic;
+          }
+
+          @media (max-width: 768px) {
+            .verse-container {
+              padding: 10px;
+            }
+            .footer-verse-arabic {
+              line-height: 1.6;
+            }
+          }
+        </style>
+
+        <style>
+          .verse-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+            text-align: center;
+            font-family: "Traditional Arabic", "Arial", sans-serif;
+            direction: rtl;
+          }
+
+          .footer-verse-arabic {
+            font-size: clamp(18px, 3vw, 24px);
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #ffffff;
+          }
+
+          .footer-verse-translation {
+            font-size: clamp(14px, 2vw, 18px);
+            line-height: 1.6;
+            margin-bottom: 10px;
+            color: #ffffff;
+            direction: ltr;
+            text-align: center;
+          }
+
+          .footer-verse-reference {
+            font-size: clamp(12px, 1.8vw, 16px);
+            color: #a4a7ac;
+            font-style: italic;
+          }
+
+          @media (max-width: 768px) {
+            .verse-container {
+              padding: 10px;
+            }
+            .footer-verse-arabic {
+              line-height: 1.6;
+            }
+          }
+        </style>
+
+        <div class="footer-links">
+          <a href="#">Tentang ngajionline</a>
+          <a href="profil.html">Kontak</a>
+          <a href="https://saweria.co/khairilaffan">Donasi</a>
+        </div>
+
+        <div class="copyright">
+          <p>
+            &copy; 2025 - created by
+            <a href="profil.html">Mohammad Khairil Affan</a>. Semua Hak
+            Dilindungi.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.2.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Toggle sidebar
+        $(".menu-toggle").click(function () {
+          $(".sidebar").toggleClass("sidebar-open");
+          $(".overlay").fadeToggle();
+          $("body").toggleClass("no-scroll");
+          $(".mobile-nav-item").removeClass("active");
+          $(this).addClass("active");
+        });
+
+        // Tutup sidebar saat klik overlay
+        $(".overlay").click(function () {
+          $(".sidebar").removeClass("sidebar-open");
+          $(this).fadeOut();
+          $("body").removeClass("no-scroll");
+        });
+
+        // Animasi menu item
+        $(".sidebar-menu li").each(function (index) {
+          $(this).css("transition-delay", index * 0.1 + "s");
+        });
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Thank You Popup -->
+    <div class="modal fade" id="thankYouModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content"
+          style="border: none; background: transparent"
+        >
+          <div class="text-center">
+            <div
+              class="bg-white p-4 rounded"
+              style="box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1)"
+            >
+              <h4 class="text-success mb-3">Terima Kasih Atas Laporan Anda</h4>
+              <p class="mb-3">
+                "Barangsiapa menunjuki kepada kebaikan maka dia akan mendapatkan
+                pahala seperti pahala orang yang mengerjakannya"
+              </p>
+              <p class="text-muted small">HR. Muslim no. 1893</p>
+              <button
+                type="button"
+                class="btn btn-success mt-2"
+                data-bs-dismiss="modal"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

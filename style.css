@@ -1,0 +1,77 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css");
+
+body{
+    background-color: rgb(249, 249, 249);
+}
+
+.font-arab{
+    font-family: serif;
+}
+
+.background-alquran{
+    height: 300px;
+}
+
+.menu{
+    padding: 10px 0;
+    color: #000;
+    transition: all .5s;
+}
+
+.cover-text-menu{
+    margin-top: 15px;
+}
+
+.menu{
+    background-color: white;
+}
+
+.menu:hover{
+    cursor: pointer;
+    background-color: #068b58;
+    transition: all .7s;
+    color: white;
+    border-radius: 15px;
+}
+
+
+.container-bacaan-rutin{
+    margin-top: 50px;
+}
+
+
+
+.footer{
+    margin-top: 100px;
+}
+
+.toogle-menu-list{
+    transition: all .5s;
+}
+.toogle-menu-list:hover{
+    background-color: rgba(6, 146, 81, 0.363);
+    color: white;
+    cursor: pointer;
+    transition: all .6s;
+}
+
+
+.slider{
+    margin-top: 55px;
+}
+@media screen and (max-width: 513px){
+    .background-alquran{
+        height: 200px;
+    }
+    .text-menu{
+        font-size: .6rem;
+    }
+    .menu{
+        padding-top: 5px;
+        padding-bottom: 0;
+    }
+
+    .cover-text-menu{
+        margin-top: 10px;
+    }
+}

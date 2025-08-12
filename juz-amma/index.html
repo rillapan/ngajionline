@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ngajionline - Juz Amma</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Amiri:wght@700&display=swap" rel="stylesheet"/>
+    <style>
+      :root{
+        --islamic-green:#0a5e2a; 
+        --gold:#b78d41; 
+        --cream:#f8f3e6; 
+        --light-gold:#e8d9b5; 
+        --dark-green:#083d1e; 
+        --white:#ffffff;
+      }
+      
+      body{ 
+        font-family:"Poppins",sans-serif; 
+        background-color:var(--cream); 
+        color:#333; 
+        overflow-x:hidden; 
+        padding-top:70px; 
+      }
+
+        .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1030;
+    height: 70px;
+    transition: transform 0.3s ease-in-out;
+  }
+      
+      .navbar{ 
+        background:linear-gradient(135deg,var(--islamic-green) 0%,var(--dark-green) 100%)!important; 
+        box-shadow:0 4px 15px rgba(0,0,0,.1); 
+        border-bottom:3px solid var(--gold); 
+        transition: transform 0.3s ease-in-out;
+      }
+
+        #surahContent {
+    padding-top: 180px; /* Sesuaikan dengan tinggi navbar + navigation */
+  }
+      
+      .navbar.hidden { 
+        transform: translateY(-100%); 
+      }
+      
+      .navbar h1{ 
+        font-weight:700; 
+        font-size:1.8rem; 
+        color:var(--white); 
+        text-shadow:1px 1px 3px rgba(0,0,0,.2); 
+      }
+      
+      .navbar h1 span{ 
+        color:var(--light-gold); 
+      }
+      
+      .toggle-back{ 
+        color:var(--light-gold)!important; 
+        transition:.3s; 
+      }
+      
+      .toggle-back:hover{ 
+        background:rgba(255,255,255,.1); 
+        transform:translateX(-3px); 
+      }
+
+      .section-title{ 
+        font-family:"Amiri",serif; 
+        font-size:2.2rem; 
+        color:var(--islamic-green); 
+        text-align:center; 
+        margin-bottom:.5rem; 
+        font-weight:700; 
+        letter-spacing:1px; 
+      }
+      
+      .section-desc{ 
+        text-align:center; 
+        color:#6c757d; 
+        margin-bottom:2rem; 
+        font-size:1.1rem; 
+      }
+      
+      .container-surat{ 
+        margin-top:30px; 
+        justify-content:center!important; 
+      }
+
+      .nama-surat{ 
+        background:#fff!important; 
+        border-radius:10px!important; 
+        box-shadow:0 4px 12px rgba(0,0,0,.1)!important; 
+        padding:15px!important; 
+        transition:.3s!important; 
+        border-top:4px solid #B78D41!important; 
+        height:100%!important; 
+        cursor:pointer; 
+      }
+      
+      .nama-surat:hover{ 
+        transform:translateY(-5px)!important; 
+        box-shadow:0 8px 20px rgba(0,0,0,.15)!important; 
+      }
+      
+      .bg-gold{ 
+        background-color:#B78D41!important; 
+      }
+      
+      .arabic-text-medium{ 
+        font-family:'Amiri',serif!important; 
+        font-size:1.8rem!important; 
+        line-height:1.5!important; 
+        text-align:right; 
+        color:#083D1E!important; 
+      }
+      
+      .arabic-text-large{ 
+        font-family:'Amiri',serif!important; 
+        font-size:2.5rem!important; 
+        line-height:1.8!important; 
+        text-align:right; 
+        color:#083D1E!important; 
+        margin:15px 0!important; 
+      }
+
+      .ayat-container{ 
+        background:#fff; 
+        border-radius:8px; 
+        padding:15px; 
+        margin-bottom:20px; 
+        box-shadow:0 2px 8px rgba(0,0,0,.1); 
+      }
+      
+      .circle-ayat-number{ 
+        display:flex; 
+        align-items:center; 
+        justify-content:center; 
+        width:36px; 
+        height:36px; 
+        background-color:#2e7d32; 
+        color:#fff; 
+        border-radius:50%; 
+        font-size:1rem; 
+        font-weight:500; 
+        margin:0 auto 4px; 
+        border:2px solid #ffd700; 
+        box-shadow:0 2px 4px rgba(0,0,0,.1); 
+      }
+      
+      .tafsir-label{ 
+        font-size:.7rem; 
+        color:#555; 
+        text-align:center; 
+        line-height:1.2; 
+        background:#f0f0f0; 
+        padding:2px 4px; 
+        border-radius:4px; 
+        display:inline-block; 
+        margin-top:2px; 
+      }
+      
+      .ayat-btn-plain{ 
+        background:transparent; 
+        border:none; 
+        padding:0; 
+        margin:0; 
+        display:block; 
+        cursor:pointer; 
+        width:100%; 
+        transition:.2s; 
+      }
+      
+      .ayat-btn-plain:hover .circle-ayat-number{ 
+        transform:scale(1.05); 
+        box-shadow:0 3px 6px rgba(0,0,0,.15); 
+      }
+      
+      .ayat-dropdown-menu{ 
+        min-width:140px; 
+        border-radius:6px; 
+        box-shadow:0 2px 10px rgba(0,0,0,.15); 
+        border:1px solid #ddd; 
+        padding:6px 0; 
+        margin-top:8px; 
+      }
+      
+      .ayat-dropdown-menu .dropdown-item{ 
+        padding:8px 12px; 
+        font-size:.85rem; 
+        color:#333; 
+        display:flex; 
+        align-items:center; 
+      }
+      
+      .dropdown-toggle::after{ 
+        display:none; 
+      }
+
+      .detail-view{ 
+        display:none; 
+      }
+      
+      .back-button{ 
+        color:var(--light-gold); 
+        text-decoration:none; 
+        display:inline-block; 
+      }
+      
+      .back-button:hover{ 
+        color:var(--white); 
+      }
+
+      /* Navigation styles similar to surah page */
+        .surah-navigation-sticky-container {
+    position: sticky;
+    top: 0; /* Diubah dari 70px ke 0 */
+    z-index: 1020;
+    background-color: var(--cream);
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(10, 94, 42, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+      
+      .surah-navigation {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+      }
+      
+      .surah-nav-btn {
+        background-color: var(--gold);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 15px;
+        font-weight: 600;
+        transition: all 0.3s;
+        white-space: nowrap;
+        flex: 1;
+        min-width: 120px;
+        max-width: 150px;
+      }
+      
+      .surah-nav-btn:hover {
+        background-color: var(--dark-green);
+      }
+      
+      .surah-nav-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      
+      .surah-current {
+        text-align: center;
+        font-weight: 600;
+        color: var(--islamic-green);
+        flex: 2;
+        min-width: 200px;
+        padding: 0 0.5rem;
+      }
+      
+      .ayat-selector {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+      }
+      
+      .ayat-selector select {
+        flex: 2;
+        border: 2px solid var(--light-gold);
+        border-radius: 5px 0 0 5px;
+        padding: 0.5rem;
+        max-width: none;
+      }
+      
+      .ayat-selector button {
+        background-color: var(--gold);
+        color: white;
+        border: none;
+        border-radius: 0 5px 5px 0;
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        white-space: nowrap;
+        flex: 1;
+      }
+
+      .dropdown-menu {
+  min-width: 120px;
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+.circle-ayat-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: var(--islamic-green);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0 auto 4px;
+  border: 2px solid #b78d41;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  transition: all 0.2s ease;
+}
+
+.circle-ayat-number:hover {
+  transform: scale(1.05);
+  box-shadow: 0 3px 6px rgba(0,0,0,.15);
+}
+      
+      /* Responsive adjustments */
+      @media (max-width: 576px) {
+        .surah-navigation {
+          flex-wrap: wrap;
+        }
+        
+        .surah-current {
+          order: -1;
+          width: 100%;
+          margin-bottom: 10px;
+          min-width: 100%;
+        }
+        
+        .surah-nav-btn {
+          max-width: 100%;
+          flex: 1;
+        }
+        
+        .ayat-selector {
+          flex-direction: row;
+        }
+        
+        .ayat-selector select,
+        .ayat-selector button {
+          padding: 0.5rem;
+          font-size: 0.9rem;
+        }
+      }
+
+      .highlight {
+        animation: highlight 2s ease-out;
+        background-color: rgba(183, 141, 65, 0.2);
+        border-radius: 5px;
+      }
+
+      @keyframes highlight {
+        0% {
+          background-color: rgba(183, 141, 65, 0.5);
+        }
+        100% {
+          background-color: rgba(183, 141, 65, 0.2);
+        }
+      }
+
+      @media (max-width:767.98px){
+        .navbar h1{ 
+          font-size:1.5rem; 
+        }
+        
+        .arabic-text-large{ 
+          font-size:2rem!important; 
+        }
+        
+        .arabic-text-medium{ 
+          font-size:1.5rem!important; 
+        }
+      }
+
+        @media (max-width: 767.98px) {
+    #surahContent {
+      padding-top: 200px; /* Lebih besar untuk mobile */
+    }
+  }
+    </style>
+  </head>
+  <body>
+    <!-- header -->
+    <nav class="navbar fixed-top">
+      <div class="container-fluid justify-content-center">
+        <div class="col-2 ps-2">
+          <a id="backToHome" href="../index.html" class="back-button btn btn-icon-styled">
+            <i class="bi bi-arrow-left fs-3 toggle-back p-1 rounded"></i>
+          </a>
+          <a id="backToList" class="back-button" style="display:none;">
+            <i class="bi bi-arrow-left fs-3 toggle-back p-1 rounded"></i>
+          </a>
+        </div>
+        <div class="col-8 text-center">
+          <h1><span>ngaji</span>online <small class="d-block fs-6">Juz Amma</small></h1>
+        </div>
+        <div class="col-2"></div>
+      </div>
+    </nav>
+
+    <!-- List view -->
+    <div id="listView">
+      <div class="container mt-4 pt-3">
+        <div class="section-title">Daftar Surat Juz Amma</div>
+        <div class="section-desc">
+          Kumpulan surat-surat pendek (Juz 30) lengkap beserta arti, jumlah ayat, dan keterangan.<br/>
+          <span style="color:var(--gold)">Klik nomor ayat untuk melihat detail ayat dan tafsir.</span>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row container-surat justify-content-center"></div>
+      </div>
+    </div>
+
+    <!-- Detail view -->
+    <div id="detailView" class="container detail-view">
+      <!-- Sticky Navigation Container -->
+      <div class="surah-navigation-sticky-container">
+        <div class="surah-navigation-container">
+          <div class="surah-navigation">
+            <button id="prevSurah" class="surah-nav-btn" disabled>
+              <i class="bi bi-chevron-left"></i> Sebelumnya
+            </button>
+
+            <div id="currentSurah" class="surah-current">
+              Al-Fatihah (1) • 7 ayat
+            </div>
+
+            <button id="nextSurah" class="surah-nav-btn">
+              Selanjutnya <i class="bi bi-chevron-right"></i>
+            </button>
+          </div>
+
+          <div class="ayat-selector">
+            <select id="ayatDropdown" class="form-select">
+              <option value="">Pilih Ayat</option>
+            </select>
+            <button id="goToAyat" class="btn btn-success">Pergi ke Ayat</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="surahContent" class="container pt-5 mt-3">
+        <!-- Ayat will be loaded here -->
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg"><div class="modal-content"></div></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.2.min.js"></script>
+    <script>
+      let currentSurah = null;
+      let allSurahs = [];
+      let currentSurahIndex = -1;
+      let lastScroll = 0;
+
+      $(document).ready(function(){
+        loadAllSurahs().then(showListSurat);
+
+        $('#backToList').on('click', function(){
+          $('#detailView').hide();
+          $('#listView').show();
+          $('#backToList').hide();
+          $('#backToHome').show();
+          window.scrollTo({top:0,behavior:'smooth'});
+        });
+
+        // Navigation buttons
+        $('#prevSurah').on('click', function(){
+          if(currentSurahIndex > 0) {
+            const prevSurah = allSurahs[currentSurahIndex - 1];
+            showSuratBesertaIsi(prevSurah.nama_latin.toLowerCase());
+          }
+        });
+
+        $('#nextSurah').on('click', function(){
+          if(currentSurahIndex < allSurahs.length - 1) {
+            const nextSurah = allSurahs[currentSurahIndex + 1];
+            showSuratBesertaIsi(nextSurah.nama_latin.toLowerCase());
+          }
+        });
+
+        // Go to selected ayat
+        $('#goToAyat').on('click', function(){
+          const selectedAyat = $('#ayatDropdown').val();
+          if(selectedAyat) {
+            scrollToAyat(selectedAyat);
+          }
+        });
+
+        // Handle navbar show/hide on scroll
+        $(window).scroll(function() {
+          const currentScroll = $(this).scrollTop();
+          const navbar = $('.navbar');
+
+          if (currentScroll <= 0) {
+            navbar.removeClass('hidden');
+          } else if (currentScroll > lastScroll && currentScroll > 50) {
+            navbar.addClass('hidden');
+          }
+          lastScroll = currentScroll;
+        });
+      });
+
+      function loadAllSurahs(){
+        return $.ajax({
+          url:'https://equran.id/api/surat',
+          success: data => { allSurahs = data.filter(s => s.nomor >= 78); }
+        });
+      }
+
+      function showListSurat(){
+        let html = '';
+        allSurahs.forEach(s => html += daftarSurat(s));
+        $('.container-surat', '#listView').html(html);
+        $('.nama-surat').on('click', function(){
+          const nama = $(this).data('surat').toLowerCase();
+          showSuratBesertaIsi(nama);
+        });
+      }
+
+      function showSuratBesertaIsi(nama_surat){
+        const idx = allSurahs.findIndex(s => s.nama_latin.toLowerCase() === nama_surat);
+        const nomor = allSurahs[idx].nomor;
+        currentSurahIndex = idx;
+        currentSurah = allSurahs[idx];
+
+        // Update URL with hash
+        window.history.pushState({}, "", `#surah=${nama_surat}`);
+
+        // Show detail view and hide list view
+        $("#listView").hide();
+        $("#detailView").show();
+        $("#backToHome").hide();
+        $("#backToList").show();
+
+        // Show loading state
+        $("#surahContent").html(
+          '<div class="text-center py-5"><div class="spinner"></div><p class="mt-3">Memuat surat...</p></div>'
+        );
+        $("#currentSurah").text("Memuat surat...");
+        $("#ayatDropdown").html('<option value="">Pilih Ayat</option>');
+
+        // Update navigation buttons
+        $("#prevSurah").prop("disabled", idx === 0);
+        $("#nextSurah").prop("disabled", idx === allSurahs.length - 1);
+
+        // Update current surah display
+        $("#currentSurah").html(`
+          ${currentSurah.nama_latin} 
+          <small>(${currentSurah.nama})</small>
+          <div class="fs-6">${currentSurah.arti} • ${currentSurah.jumlah_ayat} ayat</div>
+        `);
+
+        $.ajax({
+          url:`https://equran.id/api/surat/${nomor}`,
+          success:function(surah){
+            // Populate ayat dropdown
+            $("#ayatDropdown").html('<option value="">Pilih Ayat</option>');
+            for (let j = 1; j <= surah.jumlah_ayat; j++) {
+              $("#ayatDropdown").append(
+                `<option value="${j}">Ayat ${j}</option>`
+              );
+            }
+
+            let isi_ayat = "";
+            surah.ayat.forEach(a => { 
+              isi_ayat += showAyat(a, nomor); 
+            });
+
+            $("#surahContent").html(isi_ayat);
+
+            // Attach tafsir click handlers
+            $(".btn-tafsir-ayat").on("click", function() {
+              let ayat = $(this).data("ayat") - 1;
+              let isi_surat = $(this).data("isi");
+              $.ajax({
+                url: `https://equran.id/api/tafsir/${nomor}`,
+                success: function(data_tafsir) {
+                  $(".modal-content").html(
+                    showModal(data_tafsir, ayat, isi_surat)
+                  );
+                }
+              });
+            });
+          },
+          error: (e) => {
+            console.log(e.status);
+            $("#surahContent").html(`
+              <div class="text-center py-5">
+                <i class="bi bi-exclamation-triangle fs-1 text-warning"></i>
+                <h4 class="mt-3">Gagal memuat surat</h4>
+                <button class="btn btn-primary mt-3" onclick="showListView()">Kembali ke Daftar</button>
+              </div>
+            `);
+          }
+        });
+      }
+
+      function scrollToAyat(ayatNumber) {
+        const ayatElement = $(`[data-ayat-number="${ayatNumber}"]`);
+        if (ayatElement.length) {
+          $("html, body").animate(
+            {
+              scrollTop: ayatElement.offset().top - 100,
+            },
+            500
+          );
+
+          ayatElement.addClass("highlight");
+
+          // Remove highlight after animation completes
+          setTimeout(() => {
+            ayatElement.removeClass("highlight");
+          }, 2000);
+        }
+      }
+
+      function generateAyatOptions(total, withPlaceholder=false){
+        let o = '';
+        if(withPlaceholder) o += `<option value="" selected disabled>Pilih Ayat</option>`;
+        for(let i=1;i<=total;i++) o += `<option value="${i}">${i}</option>`;
+        return o;
+      }
+
+      function setupTafsirButtons(suratNo){
+        $('.btn-tafsir-ayat').on('click', function(){
+          const ayat = $(this).data('ayat')-1;
+          const isi_surat = $(this).data('isi');
+          $.ajax({
+            url:`https://equran.id/api/tafsir/${suratNo}`,
+            success: t => { $('.modal-content').html(showModal(t, ayat, isi_surat)); }
+          });
+        });
+      }
+
+      const daftarSurat = s => `
+        <div class="col-md-4 col-lg-3 mb-4">
+          <div class="nama-surat card-hover" data-surat="${s.nama_latin}">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-gold">${s.nomor}</span>
+                <h4 class="arabic-text-medium mb-0">${s.nama}</h4>
+              </div>
+              <div class="text-end">
+                <h5 class="surah-latin">${s.nama_latin}</h5>
+                <p class="surah-translation"><em>${s.arti}</em></p>
+                <span class="badge bg-secondary">${s.jumlah_ayat} ayat</span>
+              </div>
+            </div>
+          </div>
+        </div>`;
+
+       const showAyat = (s, suratNumber) => {
+    return `<div class="row mx-0 px-2 px-md-3 py-3 shadow-sm ayat-container mb-3 mb-md-4 bg-white rounded" data-ayat-number="${s.nomor}">
+                <!-- Kolom Nomor Ayat & Tafsir -->
+                <div class="col-2 col-sm-1 position-relative px-1 px-sm-2">
+                    <div class="dropdown d-flex justify-content-center">
+                        <button class="btn btn-link p-0 border-0 bg-transparent text-decoration-none" 
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="circle-ayat-number">
+                                ${s.nomor}
+                            </div>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item btn-tafsir-ayat d-flex align-items-center" 
+                                   data-bs-toggle="modal" data-bs-target="#staticBackdrop" 
+                                   data-ayat="${s.nomor}" data-isi="${s.ar}">
+                                    <i class="bi bi-journals me-2"></i>Tafsir
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Kolom Konten Ayat -->
+                <div class="col-10 col-sm-11 ps-2 ps-sm-3 pe-0">
+                    <div class="row text-end arabic-container mb-2 mb-md-3">
+                        <p class="arabic-text-large mb-0">${s.ar}</p>
+                    </div>
+                    <div class="row text-start mt-2">
+                        <p class="translation-text mb-0"><i>${s.tr}</i></p>
+                    </div>
+                    <div class="row text-start mt-2">
+                        <p class="indonesian-text mb-0">${s.idn}</p>
+                    </div>
+                </div>
+            </div>`;
+  };
+      function showModal(s, ayat, isi_surat) {
+        return `<div class="modal-header border-0 pb-0">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Tafsir Q.S ${s.nomor}:${ayat + 1}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-3 p-md-4">
+                    <div class="row text-end mb-3">
+                        <p class="arabic-text-large mb-0">${isi_surat}</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="fw-bold mb-2">Tafsir</p>
+                            <p class="tafsir-content">${
+                              s.tafsir[ayat].tafsir
+                            }</p>  
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="modal">Tutup</button>
+                </div>`;
+      }
+
+      // Check URL hash on initial load
+      if (window.location.hash.startsWith("#surah=")) {
+        const surahName = window.location.hash.replace("#surah=", "");
+        showSuratBesertaIsi(surahName);
+      }
+
+
+        let lastScrollPosition = 0;
+  const navbar = document.querySelector(".navbar");
+  const stickyNav = document.querySelector(".surah-navigation-sticky-container");
+
+  function handleScroll() {
+    const currentScrollPosition = window.pageYOffset;
+
+    if (currentScrollPosition <= 0) {
+      // Di bagian paling atas - tampilkan navbar
+      navbar.style.transform = "translateY(0)";
+    } else if (currentScrollPosition > lastScrollPosition) {
+      // Scroll ke bawah - sembunyikan navbar
+      navbar.style.transform = "translateY(-100%)";
+    } else {
+      // Scroll ke atas - tampilkan navbar
+      navbar.style.transform = "translateY(0)";
+    }
+
+    lastScrollPosition = currentScrollPosition;
+  }
+
+  window.addEventListener("scroll", handleScroll);
+  window.addEventListener("load", handleScroll);
+    </script>
+  </body>
+</html>
